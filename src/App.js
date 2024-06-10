@@ -1,24 +1,30 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import LoginSignup from './Pages/loginSignup';
 import './App.css';
+import Search from './Pages/search';
+import Login from './Pages/login';
+import ProtectedRoutes from './Pages/ProtectedRoutes';
+import { useState } from 'react';
+
+
 
 function App() {
+  const [accountVerified, setAccountVerified] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+          <BrowserRouter>
+              <Routes>
+                  <Route path='/signup' element={<LoginSignup />} />
+                  <Route path='/login' element={<Login setAccountVerified={setAccountVerified} />} />
+                  <Route element={<ProtectedRoutes accountVerified={accountVerified} />}>
+                      <Route path='/search' element={<Search />} />
+                  </Route>
+                  <Route path='/' element={<Login setAccountVerified={setAccountVerified} />} />
+              </Routes>
+          </BrowserRouter>
+      </div>
   );
 }
 
